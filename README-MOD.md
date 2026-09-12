@@ -11,7 +11,7 @@ stone path, patio), and neat uniform cliff edges all around the map.
 | Area | Change |
 |---|---|
 | **Field** (x3–76, y9–60) | Uniform **yellow sandy soil** (tile 472, `Diggable` / `Type: Dirt` — tillable, trees & buildings placeable) instead of green grass. Every field tile carries `NoSpawn All`, so weeds / stones / forage / wild trees no longer respawn on it. |
-| **House yard** (x50–77, y6–24) | Kept **byte-for-byte from vanilla**: the green grass rectangle around farmhouse, shipping bin and spouse patio, with the original fence lines (uncut), stone path, porch/patio and the flower tuft behind the house. Only player-removable debris tokens were stripped. |
+| **House yard** (x50–77, y6–24) | Kept **byte-for-byte from vanilla**: the green grass rectangle around farmhouse, shipping bin and spouse patio, with the original fence lines (uncut), stone path and porch/patio. Player-removable debris tokens and the flower tufts that showed through the half-transparent house were stripped. |
 | **North strip** (y0–9) | Trees, bushes, flowers, rocks, weeds and the pebbles on the north path removed; sprout variants on the cliff replaced with the plain cliff tile. Cliff, cave door, Grandpa's shrine, the statue ("totem"), farm sign and both corridors untouched. North path repainted to plain sand. |
 | **West edge** | The grass strip + tree rows are gone. A neat, uniform 3-wide rock cliff band (x0–2, y8–60) replaces the vanilla mountain jut — one same level everywhere, no hills. |
 | **East edge** | Outer column (x78–79) is the same uniform rock band; the vanilla BusStop gate (y15–18) and the east fence column at x77 are kept. |
@@ -20,10 +20,10 @@ stone path, patio), and neat uniform cliff edges all around the map.
 | **Debris** | Every weed / stone / twig / stump / log / boulder / bush / tree spawn token stripped map-wide. |
 | **Preserved** | All warps & approaches, cave door, greenhouse door, farm sign, 14 multiplayer-cabin markers with `Order`, the grass-init token the game requires, tilesheets untouched (recolor mods keep working). |
 
-> **Note on fishing:** with every pond gone there is no water left on the farm, so
-> fishing / crab pots need another location (Forest, Mountain, Beach…). If you want
-> a small neat pond tucked somewhere inside the cliff ring, say where and it's a
-> one-line change in `tools/build_farm.py`.
+> **Note on fishing:** by request the farm is completely dry — no ponds, no water
+> tiles at all — so fishing / crab pots live in other locations (Forest, Mountain,
+> Beach…). Adding a small neat pond later is a one-line change in
+> `tools/build_farm.py`.
 
 ## Install
 

@@ -53,6 +53,10 @@ KEEP_B_NORTH = CLIFF_B | STRUCT_B | {BLOCK}
 KEEP_FRONT_NORTH = {(48, 3), (48, 5), (33, 5), (35, 5)}
 
 DEBRIS = set(range(9, 22)) | {23, 24, 25, 26, 31, 32}     # Paths tokens to strip
+FLOWERS = {3, 4, 5, 28, 29, 30, 53, 54, 55, 78, 79, 80, 103, 104, 105, 101, 126}
+# flower tufts sitting in/behind the house yard (deleted on request, screen 299)
+TUFT = {(55, 6), (56, 6), (57, 6), (66, 6), (67, 6), (68, 6), (74, 6), (75, 6),
+        (55, 7), (56, 7), (57, 7), (67, 7)}
 CABIN = {29, 30}
 GRASS_INIT = 22
 
@@ -112,6 +116,9 @@ def build():
             p = get('Paths', x, y)
             if p is not None and isinstance(p, StaticTile) and p.index in DEBRIS:
                 clear('Paths', x, y)
+            f = get('Front', x, y)
+            if f is not None and (x, y) in TUFT:
+                clear('Front', x, y)
             b = get('Back', x, y)
             if b is not None and isinstance(b, StaticTile) and 'NoSpawn' not in b.props:
                 b.props['NoSpawn'] = (3, 'All')
@@ -139,6 +146,9 @@ def build():
             f = get('Front', x, y)
             if f is not None and (x, y) not in KEEP_FRONT_NORTH and not (edge and y > 3):
                 clear('Front', x, y)
+            elif f is not None and edge and 4 <= y <= 9 and isinstance(f, StaticTile) \
+                    and f.index in FLOWERS:
+                clear('Front', x, y)      # NE corner flowers
             af = get('AlwaysFront', x, y)
             if af is not None and not (33 <= x <= 35 and y <= 5):
                 clear('AlwaysFront', x, y)
@@ -276,9 +286,11 @@ def validate(m):
     # yard preserved (Back/Buildings/Front indices identical to vanilla)
     for y in range(YARD[2], YARD[3] + 1):
         for x in range(YARD[0], YARD[1] + 1):
-            for ln in ('Back', 'Buildings', 'Front'):
+            for ln in ('Back', 'Buildings'):
                 if idx(ln, x, y) != vidx(ln, x, y):
                     errors.append(f"yard {ln} ({x},{y}) changed: {vidx(ln, x, y)} -> {idx(ln, x, y)}")
+            if (x, y) not in TUFT and idx('Front', x, y) != vidx('Front', x, y):
+                errors.append(f"yard Front ({x},{y}) changed: {vidx('Front', x, y)} -> {idx('Front', x, y)}")
     # no debris / trees / bushes left anywhere; cabins + grass-init kept
     tokens = [(x, y, t.index) for y in range(H) for x in range(W)
               for t in [L['Paths'].tiles[y * W + x]]
