@@ -1,47 +1,53 @@
-# Square Farm — modified `Farm.xnb`
+# Square Farm — modified `Farm.xnb` (v2)
 
-A rebuilt **standard farm map** (the vanilla `Maps/Farm.xnb`): the farmable land is now a
-perfectly square, completely clean field. All three ponds are gone; a small new pond sits
-just outside the square in a fenced-in nook so fishing / crab pots still work.
+A rebuilt **standard farm map** (the vanilla `Maps/Farm.xnb`): one clean rectangular
+field of yellow sandy soil, a preserved vanilla house yard (green grass, fences,
+stone path, patio), and neat uniform cliff edges all around the map.
 
-![preview](preview_comparison.png)
+![preview](work/preview_after.png)
 
-## What changed
+## What changed (v2, feedback from screens 295–302)
 
 | Area | Change |
 |---|---|
-| **Shape** | The west cliff jut ("mountain"), jagged north-east corner and receding south-east corner are filled in — the usable land is one clean rectangle (x3–76, y8–60). |
-| **Ground** | The entire square is uniform plain grass (tile 587, `Diggable`/`Type: Dirt` — fully tillable, trees plantable, buildings placeable). |
-| **Ponds** | All three vanilla ponds removed. New pond (9×3 water tiles) outside the south wall in a small yard, reachable through a gate gap at x5–8 — so you can still fish and place crab pots. |
-| **Walls** | Straight mossy-hedge borders on the west/east/south (plus the north-east stretch that was open cliff). The original north hill, greenhouse and cave entrance are untouched. |
-| **Gates kept** | East → BusStop (y15–18), south → Forest (x40–42), north corridor → Backwoods (x40–41), cave door, greenhouse door, plus the new pond-yard gate. |
-| **Trees** | All scattered vanilla trees removed; new tidy staggered rows (oak/maple/pine) flank the square *behind* the hedge walls, left and right. |
-| **Debris** | Every weed / stone / twig / stump / log / boulder / bush spawn token stripped. (The game will not respawn them — spawn tokens are gone.) |
-| **Preserved** | All warps & approaches, farmhouse/cellar area (runtime buildings draw there), greenhouse + cave doors, farm sign ("your farm" message), 14 multiplayer-cabin markers with their `Order` values, the grass-init token the game requires, tilesheets untouched (recolor mods keep working). |
+| **Field** (x3–76, y9–60) | Uniform **yellow sandy soil** (tile 472, `Diggable` / `Type: Dirt` — tillable, trees & buildings placeable) instead of green grass. Every field tile carries `NoSpawn All`, so weeds / stones / forage / wild trees no longer respawn on it. |
+| **House yard** (x50–77, y6–24) | Kept **byte-for-byte from vanilla**: the green grass rectangle around farmhouse, shipping bin and spouse patio, with the original fence lines (uncut), stone path, porch/patio and the flower tuft behind the house. Only player-removable debris tokens were stripped. |
+| **North strip** (y0–9) | Trees, bushes, flowers, rocks, weeds and the pebbles on the north path removed; sprout variants on the cliff replaced with the plain cliff tile. Cliff, cave door, Grandpa's shrine, the statue ("totem"), farm sign and both corridors untouched. North path repainted to plain sand. |
+| **West edge** | The grass strip + tree rows are gone. A neat, uniform 3-wide rock cliff band (x0–2, y8–60) replaces the vanilla mountain jut — one same level everywhere, no hills. |
+| **East edge** | Outer column (x78–79) is the same uniform rock band; the vanilla BusStop gate (y15–18) and the east fence column at x77 are kept. |
+| **South edge** (y61–64) | Restored to **vanilla**: cliff edge + the original fence line. The half-off-map pond in the SE corner is filled in with the same cliff. |
+| **Ponds** | All water removed from the farm (see note below). |
+| **Debris** | Every weed / stone / twig / stump / log / boulder / bush / tree spawn token stripped map-wide. |
+| **Preserved** | All warps & approaches, cave door, greenhouse door, farm sign, 14 multiplayer-cabin markers with `Order`, the grass-init token the game requires, tilesheets untouched (recolor mods keep working). |
+
+> **Note on fishing:** with every pond gone there is no water left on the farm, so
+> fishing / crab pots need another location (Forest, Mountain, Beach…). If you want
+> a small neat pond tucked somewhere inside the cliff ring, say where and it's a
+> one-line change in `tools/build_farm.py`.
 
 ## Install
 
 1. **Back up** your Stardew folder's original file: `Content/Maps/Farm.xnb`.
 2. Copy `output/Farm.xnb` into `Content/Maps/`, replacing the original.
-3. Start the game. Remove the file (restore the backup) to go back to vanilla.
+3. Start the game (best on a **new save** — see v1 notes: things already baked into an
+   old save stay where they are).
 
-**Best on a new save.** On an existing save the map swaps in, but things already
-"baked" into that save stay where they are: planted trees, grown grass, spawned
-weeds/rocks, placed buildings (a building sitting on the old pond spot would keep
-existing there — it just looks odd). A fresh save gets the clean square exactly as shown.
+## Rebuilding from source
 
-## Files
+```bash
+python3 tools/build_farm.py        # vanilla work/Farm.tbin -> work/Farm_modified.tbin (+validation)
+python3 tools/pack_xnb.py work/Farm_modified.tbin output/Farm.xnb
+python3 tools/render_farm.py work/Farm_modified.tbin work/preview_after.png after
+```
 
-- `output/Farm.xnb` — the modified map, ready to install (uncompressed XNB, loads fine in the game/SMAPI).
 - `tools/tbin.py` — TBin (tIDE) parser/writer (byte-exact round-trip verified).
-- `tools/build_farm.py` — the whole rebuild as reproducible code, with a validation pass (warps, gates, door frames, cabin markers, tillable ground, walls…).
+- `tools/build_farm.py` — the whole rebuild as reproducible code, with a validation
+  pass (warps, gates, corridors, cliff bands, yard preservation, field uniformity,
+  cabin markers, no water, no debris…).
+- `tools/pack_xnb.py` — packs a tbin into an **uncompressed** XNB (no external tools;
+  the game / SMAPI load uncompressed XNBs fine).
 - `tools/render_farm.py` — schematic renderer used for the previews.
 - `work/Farm.tbin` / `work/Farm_modified.tbin` — extracted vanilla & modified maps.
 
-## Want tweaks?
-
-Easy one-line changes in `tools/build_farm.py`:
-tree density (`cycle` / the row loop), pond size/position (`range(8, 17)`, `yy` rows),
-wall look (`HEDGE = 176` — e.g. stone-hedge or fence-post indices from
-`spring_outdoorsTileSheet`), or keep some debris. Then re-run
-`python3 tools/build_farm.py` and repack (see the pack step in git history / ask me).
+Easy tweaks in `tools/build_farm.py`: field tile (`SAND = 472`), yard rectangle
+(`YARD`), field rectangle (`FIELD`), cliff band tile (`ROCK = 176`).
