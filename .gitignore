@@ -1,3 +1,4 @@
 work/xnbcli/
 image-search/
 __pycache__/
+.cache/
