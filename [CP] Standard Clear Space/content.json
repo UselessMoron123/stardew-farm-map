@@ -1,0 +1,14 @@
+{
+	"Format": "2.8.0",
+	"ConfigSchema": {
+		"farm": {"AllowValues": "Farm Standard,Farm Standard With Water,Farm Without Water,Farm With Minimal Water,Farm With Water",
+		"Default": "Farm Standard"},
+	},
+    "Changes": [
+        {
+            "Action": "Load",
+            "Target": "Maps/Farm",
+            "FromFile": "assets/{{farm}}.xnb"
+        }
+    ]
+}

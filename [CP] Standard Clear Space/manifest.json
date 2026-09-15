@@ -1,0 +1,11 @@
+{
+  "Name": "Standard Clear Space",
+  "Author": "Duckexza",
+  "Version": "2.2.2",
+  "Description": "Removed parts of the map to make the map more free.",
+  "UniqueID": "Duckexza.StandardClearSpace",
+  "UpdateKeys": [ "Nexus:8766" ],
+  "ContentPackFor": {
+    "UniqueID": "Pathoschild.ContentPatcher"
+  }
+}
