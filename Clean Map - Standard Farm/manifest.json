@@ -1,0 +1,11 @@
+{
+    "Name": "Clean Map - Standard Farm",
+    "Author": "Karbantms",
+    "Version": "1.1.4",
+    "Description": "Clean and symmetrical standard farm.",
+    "UniqueID": "Karbantms.CM-StandardFarm",
+    "UpdateKeys": ["Nexus:20952"],
+    "ContentPackFor":	{
+        "UniqueID": "Pathoschild.ContentPatcher"
+						}
+}
