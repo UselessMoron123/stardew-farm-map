@@ -1,0 +1,10 @@
+{
+    "Name": "Walkable Farm",
+    "Author": "UselessMoron123",
+    "Version": "1.0.0",
+    "Description": "Replaces Maps/Farm with a fully walkable Standard Farm (screenshot / exploration build). Trees, rocks and bushes from your save still block you; all map tiles are walkable.",
+    "UniqueID": "UselessMoron123.WalkableFarm",
+    "ContentPackFor": {
+        "UniqueID": "Pathoschild.ContentPatcher"
+    }
+}
